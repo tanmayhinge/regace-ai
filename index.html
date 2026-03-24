@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Regace AI — Regulatory Intelligence for Indian Pharma</title>
+  <link rel="icon" type="image/png" href="regace-small.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --white: #FAFAFA;
+      --black: #0A0A0A;
+      --red: #D42020;
+      --red-dark: #A81818;
+      --gray-100: #F0F0F0;
+      --gray-200: #E0E0E0;
+      --gray-400: #999;
+      --gray-600: #666;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--white);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 101;
+      background: #5C0A1B;
+      color: var(--white);
+      text-align: center;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .top-bar a {
+      color: var(--white);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      margin-left: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .top-bar a:hover { opacity: 0.8; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 36px;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 0 clamp(24px, 5vw, 80px);
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(250,250,250,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--gray-200);
+      transition: box-shadow 0.3s;
+    }
+
+    nav.scrolled { box-shadow: 0 1px 20px rgba(0,0,0,0.06); }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--black);
+    }
+
+    .nav-logo img {
+      height: 28px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--gray-600);
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--black); }
+
+    .nav-cta {
+      background: var(--black) !important;
+      color: var(--white) !important;
+      padding: 9px 22px !important;
+      border-radius: 8px;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: #222 !important; }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--black);
+      border-radius: 1px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 140px clamp(24px, 5vw, 80px) 80px;
+      position: relative;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-two-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 900px;
+      margin-top: 64px;
+      gap: 40px;
+    }
+
+    .hero-screenshot {
+      width: 100%;
+      position: relative;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.9s forwards;
+    }
+
+    .hero-gif {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--gray-200);
+      display: block;
+    }
+
+    .hero-screenshot::after {
+      content: '';
+      position: absolute;
+      inset: 12px -12px -12px 12px;
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      z-index: -1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 100px;
+      padding: 6px 16px 6px 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-600);
+      margin-bottom: 40px;
+      width: fit-content;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(48px, 7vw, 96px);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      font-weight: 400;
+      max-width: 900px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s forwards;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--red);
+    }
+
+    .hero-sub {
+      font-size: clamp(14px, 1.4vw, 16px);
+      line-height: 1.6;
+      color: var(--gray-600);
+      max-width: 760px;
+      margin-top: 28px;
+      font-weight: 400;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 48px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.65s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--red);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      font-family: var(--sans);
+    }
+
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--black);
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1.5px solid var(--gray-200);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      font-family: var(--sans);
+    }
+
+    .btn-secondary:hover { border-color: var(--black); background: var(--gray-100); }
+
+    .hero-metric-strip {
+      display: flex;
+      gap: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--gray-200);
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+
+    .hero-metric strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-metric span {
+      font-size: 13px;
+      color: var(--gray-400);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ── DEMO SECTION ── */
+    .demo-section {
+      padding: 120px clamp(24px, 5vw, 80px);
+      position: relative;
+    }
+
+    .demo-window {
+      max-width: 1000px;
+      margin: 0 auto;
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 40px 100px -20px rgba(0,0,0,0.08);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+
+    .demo-window.visible { opacity: 1; transform: translateY(0); }
+
+    .demo-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 20px;
+      background: var(--gray-100);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .demo-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gray-200);
+    }
+
+    .demo-dot:first-child { background: #FF5F56; }
+    .demo-dot:nth-child(2) { background: #FFBD2E; }
+    .demo-dot:nth-child(3) { background: #27C93F; }
+
+    .demo-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 400px;
+    }
+
+    .demo-chat {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      border-right: 1px solid var(--gray-200);
+    }
+
+    .demo-msg {
+      max-width: 90%;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .demo-msg.user {
+      align-self: flex-end;
+      background: var(--black);
+      color: var(--white);
+      border-bottom-right-radius: 4px;
+    }
+
+    .demo-msg.ai {
+      align-self: flex-start;
+      background: var(--gray-100);
+      color: var(--black);
+      border-bottom-left-radius: 4px;
+    }
+
+    .demo-msg .cite {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--red);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      margin: 0 2px;
+      vertical-align: middle;
+    }
+
+    .demo-sources {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .demo-sources-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray-400);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .demo-source-card {
+      padding: 16px;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      transition: border-color 0.2s;
+    }
+
+    .demo-source-card:hover { border-color: var(--red); }
+
+    .demo-source-card .source-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--red);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      margin-right: 8px;
+    }
+
+    .demo-source-card .source-title {
+      font-weight: 600;
+      font-size: 13px;
+      display: inline;
+    }
+
+    .demo-source-card .source-meta {
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-top: 6px;
+      font-family: var(--mono);
+    }
+
+    .demo-source-card .source-excerpt {
+      font-size: 13px;
+      color: var(--gray-600);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      padding: 120px clamp(24px, 5vw, 80px);
+      text-align: center;
+      background: var(--gray-100);
+    }
+
+    .how-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 24px;
+      padding: 72px 56px 64px;
+      box-shadow: 0 20px 60px -15px rgba(0,0,0,0.06);
+    }
+
+    .how-accent {
+      width: 40px;
+      height: 3px;
+      background: var(--red);
+      border-radius: 2px;
+      margin: 0 auto 24px;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--red);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(32px, 4.5vw, 56px);
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      max-width: 600px;
+      margin-bottom: 64px;
+    }
+
+    .how-section .section-title {
+      margin: 0 auto 12px;
+    }
+
+    .how-subtitle {
+      font-size: 15px;
+      color: var(--gray-600);
+      max-width: 560px;
+      margin: 0 auto 60px;
+      line-height: 1.6;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+      align-items: start;
+    }
+
+    .step {
+      position: relative;
+      z-index: 1;
+      padding: 0 16px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+
+    .step.visible { opacity: 1; transform: translateY(0); }
+
+    /* Mockup card illustration */
+    .step-card {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      position: relative;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .step:hover .step-card {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+    }
+
+    .step-card-bar {
+      height: 24px;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 4px;
+    }
+
+    .step-card-bar span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #444;
+    }
+
+    .step-card-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .step-card-line {
+      height: 6px;
+      border-radius: 3px;
+      background: var(--gray-100);
+    }
+
+    .step-card-line.accent { background: var(--red); opacity: 0.7; }
+    .step-card-line.dark { background: var(--black); opacity: 0.12; }
+    .step-card-line.short { width: 60%; }
+    .step-card-line.shorter { width: 40%; }
+    .step-card-line.tiny { width: 25%; }
+
+    .step-card-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .step-card-block {
+      height: 20px;
+      border-radius: 4px;
+      flex: 1;
+    }
+
+    .step-card-block.red { background: rgba(212,32,32,0.12); }
+    .step-card-block.gray { background: var(--gray-100); }
+    .step-card-block.dark { background: rgba(10,10,10,0.08); }
+
+    .step-card-badge {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+
+    /* Curved dotted connector arrows */
+    .step-connector {
+      position: absolute;
+      top: 38%;
+      right: -24px;
+      width: 48px;
+      height: 40px;
+      z-index: 2;
+    }
+
+    .step:last-child .step-connector { display: none; }
+
+    .step h3 {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+
+    .step p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--gray-600);
+    }
+
+    /* ── FEATURES ── */
+    .features-section {
+      padding: 120px clamp(24px, 5vw, 80px);
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .features-section .section-title { color: var(--white); }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: #222;
+      border: 1px solid #222;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .feature {
+      background: var(--black);
+      padding: 48px 40px;
+      transition: background 0.3s;
+    }
+
+    .feature:hover { background: #111; }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border: 1.5px solid #333;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 18px;
+      transition: border-color 0.3s;
+    }
+
+    .feature:hover .feature-icon { border-color: var(--red); }
+
+    .feature h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .feature p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--gray-400);
+    }
+
+    /* ── COVERAGE ── */
+    .coverage-section {
+      padding: 120px clamp(24px, 5vw, 80px);
+    }
+
+    .coverage-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 0;
+    }
+
+    .coverage-card {
+      padding: 28px 24px;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .coverage-card:hover {
+      border-color: var(--red);
+      transform: translateY(-2px);
+    }
+
+    .coverage-card .card-year {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-bottom: 10px;
+    }
+
+    .coverage-card h4 {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+    }
+
+    .coverage-card p {
+      font-size: 13px;
+      color: var(--gray-600);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 120px clamp(24px, 5vw, 80px);
+      text-align: center;
+    }
+
+    .cta-box {
+      max-width: 900px;
+      margin: 0 auto;
+      border: 1px solid var(--gray-200);
+      border-radius: 20px;
+      padding: 72px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+    }
+
+    .cta-box h2 {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.5vw, 44px);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .cta-box h2 em {
+      font-style: italic;
+      color: var(--red);
+    }
+
+    .cta-box p {
+      color: var(--gray-600);
+      font-size: 16px;
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    .cta-input-row {
+      display: flex;
+      gap: 10px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .cta-input-row input {
+      flex: 1;
+      padding: 14px 18px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: var(--sans);
+      outline: none;
+      transition: border-color 0.2s;
+      background: var(--white);
+    }
+
+    .cta-input-row input:focus { border-color: var(--black); }
+
+    .cta-input-row button {
+      padding: 14px 28px;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--sans);
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .cta-input-row button:hover { background: var(--red-dark); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 48px clamp(24px, 5vw, 80px);
+      background: #5C0A1B;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-left {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--white); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 36px; }
+      .step-connector { display: none; }
+      .how-inner { padding: 48px 32px; }
+      .coverage-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .hero-metric-strip { gap: 32px; flex-wrap: wrap; justify-content: center; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      .hero h1 { font-size: clamp(36px, 10vw, 56px); }
+
+      .hero-metric-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        text-align: center;
+      }
+
+      .steps-grid { grid-template-columns: 1fr; gap: 32px; }
+      .how-inner { padding: 40px 20px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .coverage-grid { grid-template-columns: 1fr; }
+
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+
+      .cta-input-row { flex-direction: column; }
+
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+    }
+
+    /* ── CURSOR TRAIL (subtle) ── */
+    .cursor-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(212,32,32,0.04) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      transform: translate(-50%, -50%);
+      transition: left 0.3s ease-out, top 0.3s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    Regace AI is now in early access.<a href="schedule.html">Schedule Demo &rarr;</a>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+      <img src="regace-logo.png" alt="Regace AI" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#" class="nav-cta">Login</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Built for Indian pharma regulatory teams
+      </div>
+      <h1>The Regulatory Intelligence<br/><em>Engine for Indian Pharma.</em></h1>
+      <p class="hero-sub">Regace AI indexes the entirety of India's pharmaceutical regulatory history - every notification, circular, and mandate from CDSCO, NPPA, and beyond. Stop hunting through archives and start getting instant, cited answers from the most comprehensive intelligence engine in the industry.</p>
+      <div class="hero-actions">
+        <a href="schedule.html" class="btn-primary">
+          Schedule Demo
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5-5-5-5"/></svg>
+        </a>
+        </div>
+    </div>
+    <div class="hero-two-col">
+      <div class="hero-screenshot">
+        <video src="Untitled.mov" autoplay loop muted playsinline class="hero-gif"></video>
+      </div>
+      <div class="hero-metric-strip">
+        <div class="hero-metric">
+          <strong>20K+</strong>
+          <span>Regulatory documents</span>
+        </div>
+        <div class="hero-metric">
+          <strong>&lt;3s</strong>
+          <span>Avg. response time</span>
+        </div>
+        <div class="hero-metric">
+          <strong>100%</strong>
+          <span>Cited answers</span>
+        </div>
+        <div class="hero-metric">
+          <strong>3000+</strong>
+          <span>Questions answered</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="how">
+    <div class="how-inner reveal">
+      <div class="how-accent"></div>
+      <h2 class="section-title">How Regace AI works</h2>
+      <p class="how-subtitle">From question to verified, cited answer in seconds — not hours of manual searching through regulatory archives.</p>
+      <div class="steps-grid">
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-card">
+            <div class="step-card-bar"><span></span><span></span><span></span></div>
+            <div class="step-card-body">
+              <div class="step-card-line dark short"></div>
+              <div style="height:6px"></div>
+              <div class="step-card-line" style="width:90%"></div>
+              <div class="step-card-line" style="width:75%"></div>
+              <div style="height:4px"></div>
+              <div class="step-card-row">
+                <div class="step-card-block red" style="flex:0 0 auto; width:100%; height:28px; border-radius:6px;"></div>
+              </div>
+            </div>
+          </div>
+          <svg class="step-connector" viewBox="0 0 48 40" fill="none"><path d="M4 36 C16 36, 20 4, 44 4" stroke="var(--gray-200)" stroke-width="2" stroke-dasharray="4 4"/><path d="M40 1l5 3-5 3" stroke="var(--gray-200)" stroke-width="2" fill="none"/></svg>
+          <h3>Ask anything</h3>
+          <p>Type your regulatory question in plain English — reference rules, sections, or describe your challenge.</p>
+        </div>
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-card">
+            <div class="step-card-bar"><span></span><span></span><span></span></div>
+            <div class="step-card-body">
+              <div class="step-card-row"><div class="step-card-block gray" style="height:14px"></div><div class="step-card-block red" style="flex:0 0 40px; height:14px"></div></div>
+              <div class="step-card-row"><div class="step-card-block dark" style="height:14px"></div><div class="step-card-block gray" style="height:14px"></div></div>
+              <div class="step-card-row"><div class="step-card-block gray" style="height:14px"></div><div class="step-card-block dark" style="flex:0 0 40px; height:14px"></div></div>
+              <div class="step-card-row"><div class="step-card-block red" style="flex:0 0 40px; height:14px"></div><div class="step-card-block gray" style="height:14px"></div></div>
+            </div>
+          </div>
+          <svg class="step-connector" viewBox="0 0 48 40" fill="none"><path d="M4 4 C16 4, 20 36, 44 36" stroke="var(--gray-200)" stroke-width="2" stroke-dasharray="4 4"/><path d="M40 33l5 3-5 3" stroke="var(--gray-200)" stroke-width="2" fill="none"/></svg>
+          <h3>Regace finds sources</h3>
+          <p>AI-powered retrieval searches 20,000+ documents to surface the exact regulatory passages.</p>
+        </div>
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-card">
+            <div class="step-card-bar"><span></span><span></span><span></span></div>
+            <div class="step-card-body">
+              <div class="step-card-line dark" style="width:85%"></div>
+              <div class="step-card-line" style="width:95%"></div>
+              <div class="step-card-row"><div class="step-card-badge"></div><div class="step-card-line" style="flex:1"></div></div>
+              <div class="step-card-line" style="width:70%"></div>
+              <div class="step-card-row"><div class="step-card-badge"></div><div class="step-card-line short" style="flex:1"></div></div>
+            </div>
+          </div>
+          <svg class="step-connector" viewBox="0 0 48 40" fill="none"><path d="M4 36 C16 36, 20 4, 44 4" stroke="var(--gray-200)" stroke-width="2" stroke-dasharray="4 4"/><path d="M40 1l5 3-5 3" stroke="var(--gray-200)" stroke-width="2" fill="none"/></svg>
+          <h3>Get cited answers</h3>
+          <p>Numbered citations link to source documents, page numbers, and regulatory hierarchy.</p>
+        </div>
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-card">
+            <div class="step-card-bar"><span></span><span></span><span></span></div>
+            <div class="step-card-body">
+              <div class="step-card-line dark short"></div>
+              <div style="height:2px"></div>
+              <div class="step-card-line" style="width:100%"></div>
+              <div class="step-card-line" style="width:90%"></div>
+              <div class="step-card-line" style="width:95%"></div>
+              <div class="step-card-line shorter"></div>
+              <div style="height:2px"></div>
+              <div class="step-card-row">
+                <div class="step-card-block red" style="flex:0 0 auto; width:60px; height:22px; border-radius:6px; display:flex; align-items:center; justify-content:center;">
+                  <svg width="12" height="12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M2 6l3 3 5-5"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3>Verify instantly</h3>
+          <p>Click any citation to view the original passage. Open the full PDF at the exact page.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" id="features">
+    <div class="section-label reveal" style="color: var(--red);">Capabilities</div>
+    <h2 class="section-title reveal">Built for regulatory precision</h2>
+    <div class="features-grid reveal">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 2v16M2 10h16"/></svg>
+        </div>
+        <h3>Hybrid search</h3>
+        <p>Combines ChromaDB vector similarity with BM25 keyword search. Reciprocal Rank Fusion ensures the most relevant passages surface every time.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 4h12v12H4zM8 8h4v4H8z"/></svg>
+        </div>
+        <h3>Section-aware chunking</h3>
+        <p>Documents are chunked respecting regulatory structure. Cross-page sections stay intact. Hierarchy breadcrumbs give Claude the full structural context.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><path d="M10 7v3l2 2"/></svg>
+        </div>
+        <h3>Real-time streaming</h3>
+        <p>Answers stream token-by-token via SSE. Source cards appear immediately after retrieval. No waiting for the full response to complete.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 10h14M3 5h14M3 15h9"/></svg>
+        </div>
+        <h3>Traceable citations</h3>
+        <p>Every claim cites its source with page numbers. Click any citation to jump to the exact passage. Open the original PDF at the referenced page.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 3v14l5-3 5 3V3z"/></svg>
+        </div>
+        <h3>Query-hint detection</h3>
+        <p>Mention "Rule 122-A" or "Schedule M" and the system automatically boosts exact metadata matches, ensuring the right section is retrieved first.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 3v4M3 10h4M17 10h-4M10 17v-4"/><circle cx="10" cy="10" r="3"/></svg>
+        </div>
+        <h3>Fully local pipeline</h3>
+        <p>Embeddings, vector DB, keyword index, and chat history all run locally. The only external call is to Claude for answer generation. Your data stays yours.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COVERAGE -->
+  <section class="coverage-section" id="coverage">
+    <div class="section-label reveal">Knowledge base</div>
+    <h2 class="section-title reveal">Covering the regulations that matter</h2>
+    <div class="coverage-grid reveal">
+      <div class="coverage-card">
+        <div class="card-year">1940</div>
+        <h4>Drugs & Cosmetics Act</h4>
+        <p>The foundational statute governing drugs, cosmetics, and medical devices in India.</p>
+      </div>
+      <div class="coverage-card">
+        <div class="card-year">1945</div>
+        <h4>D&C Rules</h4>
+        <p>Operational rules including Rule 122A, 122E, Schedule M, and licensing requirements.</p>
+      </div>
+      <div class="coverage-card">
+        <div class="card-year">2019</div>
+        <h4>NDCT Rules</h4>
+        <p>New drug approvals, clinical trial regulations, bioequivalence, and bioavailability.</p>
+      </div>
+      <div class="coverage-card">
+        <div class="card-year">2013</div>
+        <h4>DPCO</h4>
+        <p>Drug price control, ceiling price formula, and NPPA pricing mechanisms.</p>
+      </div>
+      <div class="coverage-card">
+        <div class="card-year">2024</div>
+        <h4>Revised Schedule M</h4>
+        <p>Updated GMP requirements for pharmaceutical manufacturing facilities.</p>
+      </div>
+      <div class="coverage-card">
+        <div class="card-year">2020</div>
+        <h4>Cosmetics Rules</h4>
+        <p>Regulatory framework for cosmetics import, manufacture, and licensing.</p>
+      </div>
+      <div class="coverage-card">
+        <div class="card-year">2017</div>
+        <h4>Medical Devices Rules</h4>
+        <p>Classification, registration, and licensing of medical devices.</p>
+      </div>
+      <div class="coverage-card">
+        <div class="card-year">CDSCO</div>
+        <h4>FDC Guidelines</h4>
+        <p>Fixed-dose combination approvals and regulatory pathways.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <div class="cta-box reveal">
+      <h2>Stop searching.<br/><em>Start asking.</em></h2>
+      <p>Schedule a demo to see Regace AI in action and discover how it can transform your regulatory workflow.</p>
+      <a href="schedule.html" class="btn-primary" style="margin: 0 auto;">
+        Schedule Demo
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5-5-5-5"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">&copy; 2026 Regace AI. All rights reserved.</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal, .demo-window');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Cursor glow
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', (e) => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+    });
+
+    // Stagger step cards
+    document.querySelectorAll('.step').forEach((step, i) => {
+      step.style.transitionDelay = `${i * 0.12}s`;
+      const stepObs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          step.classList.add('visible');
+          stepObs.unobserve(step);
+        }
+      }, { threshold: 0.15 });
+      stepObs.observe(step);
+    });
+
+    // Stagger coverage cards
+    document.querySelectorAll('.coverage-card').forEach((card, i) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = `opacity 0.5s ${i * 0.07}s, transform 0.5s ${i * 0.07}s, border-color 0.2s`;
+      const cardObs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+          cardObs.unobserve(card);
+        }
+      }, { threshold: 0.1 });
+      cardObs.observe(card);
+    });
+  </script>
+</body>
+</html>

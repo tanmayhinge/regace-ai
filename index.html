@@ -714,47 +714,175 @@
 
     /* ── COVERAGE ── */
     .coverage-section {
-      padding: 120px clamp(24px, 5vw, 80px);
+      padding: 80px clamp(24px, 5vw, 80px) 120px;
     }
 
-    .coverage-grid {
+    .coverage-section .section-title {
+      margin-bottom: 12px;
+    }
+
+    .coverage-subtitle {
+      font-size: clamp(14px, 1.4vw, 16px);
+      line-height: 1.6;
+      color: var(--gray-600);
+      max-width: 600px;
+      margin: 8px auto 0;
+      text-align: center;
+    }
+
+    .network-map {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      aspect-ratio: 2 / 1;
+      margin: 64px auto 0;
+    }
+
+    .network-map svg.network-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .network-map svg.network-lines line {
+      stroke: var(--gray-200);
+      stroke-width: 1;
+      stroke-dasharray: 4 4;
+      transition: stroke 0.3s, stroke-width 0.3s;
+    }
+
+    .network-center {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      width: 88px;
+      height: 88px;
+      background: var(--white);
+      border: 2px solid var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      box-shadow: 0 0 0 8px rgba(212, 32, 32, 0.06), 0 0 40px rgba(212, 32, 32, 0.1);
+    }
+
+    .network-center img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .network-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      text-align: center;
+      cursor: default;
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .network-node:hover {
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    .network-node-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gray-200);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .network-node:hover .network-node-circle {
+      border-color: var(--red);
+      box-shadow: 0 0 0 4px rgba(212, 32, 32, 0.1);
+    }
+
+    .network-node-circle svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--gray-400);
+      transition: stroke 0.3s;
+    }
+
+    .network-node:hover .network-node-circle svg {
+      stroke: var(--red);
+    }
+
+    .network-node h4 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      margin-top: 8px;
+    }
+
+    .network-node p {
+      font-size: 11px;
+      color: var(--gray-400);
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+
+    .network-map-mobile {
+      display: none;
+      margin-top: 48px;
+    }
+
+    .network-mobile-center {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 32px;
+      border: 2px solid var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 6px rgba(212, 32, 32, 0.06);
+    }
+
+    .network-mobile-center img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .network-mobile-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 16px;
-      margin-top: 0;
+      max-width: 400px;
+      margin: 0 auto;
     }
 
-    .coverage-card {
-      padding: 28px 24px;
+    .network-mobile-item {
+      text-align: center;
+      padding: 20px 12px;
       border: 1px solid var(--gray-200);
       border-radius: 12px;
-      transition: border-color 0.2s, transform 0.2s;
     }
 
-    .coverage-card:hover {
-      border-color: var(--red);
-      transform: translateY(-2px);
+    .network-mobile-item h4 {
+      font-size: 14px;
+      font-weight: 600;
     }
 
-    .coverage-card .card-year {
-      font-family: var(--mono);
+    .network-mobile-item p {
       font-size: 12px;
       color: var(--gray-400);
-      margin-bottom: 10px;
-    }
-
-    .coverage-card h4 {
-      font-size: 15px;
-      font-weight: 600;
-      line-height: 1.35;
-      letter-spacing: -0.01em;
-    }
-
-    .coverage-card p {
-      font-size: 13px;
-      color: var(--gray-600);
-      margin-top: 8px;
-      line-height: 1.5;
+      margin-top: 4px;
     }
 
     /* ── CTA ── */
@@ -889,8 +1017,6 @@
       .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 36px; }
       .step-connector { display: none; }
       .how-inner { padding: 48px 32px; }
-      .coverage-grid { grid-template-columns: repeat(2, 1fr); }
-
       .hero-metric-strip { gap: 32px; flex-wrap: wrap; justify-content: center; }
     }
 
@@ -910,7 +1036,9 @@
       .steps-grid { grid-template-columns: 1fr; gap: 32px; }
       .how-inner { padding: 40px 20px; }
       .features-grid { grid-template-columns: 1fr; }
-      .coverage-grid { grid-template-columns: 1fr; }
+
+      .network-map { display: none; }
+      .network-map-mobile { display: block; }
 
       .hero-actions { flex-direction: column; align-items: flex-start; }
 
@@ -1083,49 +1211,49 @@
   <!-- FEATURES -->
   <section class="features-section" id="features">
     <div class="section-label reveal" style="color: var(--red);">Capabilities</div>
-    <h2 class="section-title reveal">Built for regulatory precision</h2>
+    <h2 class="section-title reveal">Everything your regulatory team needs</h2>
     <div class="features-grid reveal">
       <div class="feature">
         <div class="feature-icon">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 2v16M2 10h16"/></svg>
         </div>
-        <h3>Hybrid search</h3>
-        <p>Combines ChromaDB vector similarity with BM25 keyword search. Reciprocal Rank Fusion ensures the most relevant passages surface every time.</p>
+        <h3>Instant Answers</h3>
+        <p>Ask in plain English or cite a specific rule — get accurate, sourced answers from across the D&C Act, NDCT Rules, DPCO, Schedule M, and more in seconds.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 4h12v12H4zM8 8h4v4H8z"/></svg>
         </div>
-        <h3>Section-aware chunking</h3>
-        <p>Documents are chunked respecting regulatory structure. Cross-page sections stay intact. Hierarchy breadcrumbs give Claude the full structural context.</p>
+        <h3>Audit-Ready Citations</h3>
+        <p>Every answer cites the exact rule, section, and page number. Click any citation to view the original passage or open the source PDF — ready for submissions and inspections.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><path d="M10 7v3l2 2"/></svg>
         </div>
-        <h3>Real-time streaming</h3>
-        <p>Answers stream token-by-token via SSE. Source cards appear immediately after retrieval. No waiting for the full response to complete.</p>
+        <h3>Full Regulatory Context</h3>
+        <p>Answers include the complete rule or section, not fragments. See the full hierarchy — Act to Schedule to Part to Rule — so you never lose context when cross-referencing.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 10h14M3 5h14M3 15h9"/></svg>
         </div>
-        <h3>Traceable citations</h3>
-        <p>Every claim cites its source with page numbers. Click any citation to jump to the exact passage. Open the original PDF at the referenced page.</p>
+        <h3>Precise Rule Lookup</h3>
+        <p>Reference "Rule 122-A", "Schedule M Part I", or "Form CT-04" and get exactly that provision. No digging through 500-page PDFs to find the right clause.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 3v14l5-3 5 3V3z"/></svg>
         </div>
-        <h3>Query-hint detection</h3>
-        <p>Mention "Rule 122-A" or "Schedule M" and the system automatically boosts exact metadata matches, ensuring the right section is retrieved first.</p>
+        <h3>20,000+ Documents Covered</h3>
+        <p>Spans the Drugs & Cosmetics Act, NDCT Rules 2019, DPCO 2013, Revised Schedule M, Cosmetics Rules, Medical Devices Rules, and CDSCO/NPPA circulars.</p>
       </div>
       <div class="feature">
         <div class="feature-icon">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 3v4M3 10h4M17 10h-4M10 17v-4"/><circle cx="10" cy="10" r="3"/></svg>
         </div>
-        <h3>Fully local pipeline</h3>
-        <p>Embeddings, vector DB, keyword index, and chat history all run locally. The only external call is to Claude for answer generation. Your data stays yours.</p>
+        <h3>Your Data Stays Private</h3>
+        <p>All documents and search indexes stay on your infrastructure. No regulatory documents or query history are sent to third-party servers.</p>
       </div>
     </div>
   </section>
@@ -1133,47 +1261,101 @@
   <!-- COVERAGE -->
   <section class="coverage-section" id="coverage">
     <div class="section-label reveal">Knowledge base</div>
-    <h2 class="section-title reveal">Covering the regulations that matter</h2>
-    <div class="coverage-grid reveal">
-      <div class="coverage-card">
-        <div class="card-year">1940</div>
-        <h4>Drugs & Cosmetics Act</h4>
-        <p>The foundational statute governing drugs, cosmetics, and medical devices in India.</p>
+    <h2 class="section-title reveal">One engine. Every regulation.</h2>
+    <p class="coverage-subtitle reveal">Regace AI continuously tracks the full spectrum of Indian pharmaceutical regulations — from foundational Acts to the latest CDSCO circular.</p>
+
+    <div class="network-map reveal">
+      <!-- SVG connecting lines — center at (450,430), 8 nodes in semi-circle arc -->
+      <svg class="network-lines" viewBox="0 0 900 450" preserveAspectRatio="xMidYMid meet">
+        <!-- Lines shortened at both ends to gap away from circles -->
+        <line x1="405" y1="418" x2="75"  y2="350" />
+        <line x1="415" y1="400" x2="120" y2="190" />
+        <line x1="430" y1="395" x2="250" y2="70"  />
+        <line x1="445" y1="390" x2="425" y2="60"  />
+        <line x1="455" y1="390" x2="475" y2="60"  />
+        <line x1="470" y1="395" x2="650" y2="70"  />
+        <line x1="485" y1="400" x2="780" y2="190" />
+        <line x1="495" y1="418" x2="825" y2="350" />
+      </svg>
+
+      <!-- Center node — bottom center -->
+      <div class="network-center">
+        <img src="regace-small.png" alt="Regace AI" />
       </div>
-      <div class="coverage-card">
-        <div class="card-year">1945</div>
-        <h4>D&C Rules</h4>
-        <p>Operational rules including Rule 122A, 122E, Schedule M, and licensing requirements.</p>
+
+      <!-- Outer nodes — semi-circle arc, left to right -->
+      <div class="network-node" style="top: 70%; left: 3%;">
+        <div class="network-node-circle">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 12h6M12 9v6"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+        </div>
+        <h4>Import & Licensing</h4>
+        <p>Permits & registrations</p>
       </div>
-      <div class="coverage-card">
-        <div class="card-year">2019</div>
-        <h4>NDCT Rules</h4>
-        <p>New drug approvals, clinical trial regulations, bioequivalence, and bioavailability.</p>
+      <div class="network-node" style="top: 30%; left: 9%;">
+        <div class="network-node-circle">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/></svg>
+        </div>
+        <h4>GMP Guidelines</h4>
+        <p>Manufacturing standards</p>
       </div>
-      <div class="coverage-card">
-        <div class="card-year">2013</div>
-        <h4>DPCO</h4>
-        <p>Drug price control, ceiling price formula, and NPPA pricing mechanisms.</p>
+      <div class="network-node" style="top: 4%; left: 24%;">
+        <div class="network-node-circle">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <h4>Notifications</h4>
+        <p>Updates & amendments</p>
       </div>
-      <div class="coverage-card">
-        <div class="card-year">2024</div>
-        <h4>Revised Schedule M</h4>
-        <p>Updated GMP requirements for pharmaceutical manufacturing facilities.</p>
+      <div class="network-node" style="top: -2%; left: 42%;">
+        <div class="network-node-circle">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h4>Acts & Statutes</h4>
+        <p>Primary legislation</p>
       </div>
-      <div class="coverage-card">
-        <div class="card-year">2020</div>
-        <h4>Cosmetics Rules</h4>
-        <p>Regulatory framework for cosmetics import, manufacture, and licensing.</p>
+      <div class="network-node" style="top: -2%; left: 58%;">
+        <div class="network-node-circle">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+        </div>
+        <h4>Rules & Schedules</h4>
+        <p>Compliance frameworks</p>
       </div>
-      <div class="coverage-card">
-        <div class="card-year">2017</div>
-        <h4>Medical Devices Rules</h4>
-        <p>Classification, registration, and licensing of medical devices.</p>
+      <div class="network-node" style="top: 4%; left: 76%;">
+        <div class="network-node-circle">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/><path d="M9 4v16"/></svg>
+        </div>
+        <h4>CDSCO Circulars</h4>
+        <p>Authority directives</p>
       </div>
-      <div class="coverage-card">
-        <div class="card-year">CDSCO</div>
-        <h4>FDC Guidelines</h4>
-        <p>Fixed-dose combination approvals and regulatory pathways.</p>
+      <div class="network-node" style="top: 30%; left: 91%;">
+        <div class="network-node-circle">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h4>NPPA Orders</h4>
+        <p>Pricing notifications</p>
+      </div>
+      <div class="network-node" style="top: 70%; left: 97%;">
+        <div class="network-node-circle">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 2h6v4H9z"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 14l2 2 4-4"/></svg>
+        </div>
+        <h4>Clinical Trials</h4>
+        <p>Approvals & protocols</p>
+      </div>
+    </div>
+
+    <!-- Mobile fallback -->
+    <div class="network-map-mobile reveal">
+      <div class="network-mobile-center">
+        <img src="regace-small.png" alt="Regace AI" />
+      </div>
+      <div class="network-mobile-grid">
+        <div class="network-mobile-item"><h4>Acts & Statutes</h4><p>Primary legislation</p></div>
+        <div class="network-mobile-item"><h4>Rules & Schedules</h4><p>Compliance frameworks</p></div>
+        <div class="network-mobile-item"><h4>CDSCO Circulars</h4><p>Authority directives</p></div>
+        <div class="network-mobile-item"><h4>NPPA Orders</h4><p>Pricing notifications</p></div>
+        <div class="network-mobile-item"><h4>Clinical Trials</h4><p>Approvals & protocols</p></div>
+        <div class="network-mobile-item"><h4>GMP Guidelines</h4><p>Manufacturing standards</p></div>
+        <div class="network-mobile-item"><h4>Import & Licensing</h4><p>Permits & registrations</p></div>
+        <div class="network-mobile-item"><h4>Notifications</h4><p>Updates & amendments</p></div>
       </div>
     </div>
   </section>

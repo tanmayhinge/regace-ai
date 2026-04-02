@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo — Regace AI</title>
+  <link rel="icon" type="image/png" href="regace-small.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --white: #FAFAFA;
+      --black: #0A0A0A;
+      --red: #D42020;
+      --red-dark: #A81818;
+      --gray-100: #F0F0F0;
+      --gray-200: #E0E0E0;
+      --gray-400: #999;
+      --gray-600: #666;
+      --maroon: #5C0A1B;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--white);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    nav {
+      padding: 0 clamp(24px, 5vw, 80px);
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--black);
+    }
+
+    .nav-logo img {
+      height: 28px;
+      width: auto;
+    }
+
+    .nav-back {
+      font-size: 14px;
+      color: var(--gray-600);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--black); }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      padding: 60px clamp(24px, 5vw, 80px);
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .demo-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .page-title {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .page-title em {
+      font-style: italic;
+      color: var(--red);
+    }
+
+    .schedule-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--black);
+      color: var(--white);
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .schedule-btn:hover { background: #222; }
+
+    .schedule-btn svg {
+      flex-shrink: 0;
+    }
+
+    /* ── VIDEO ── */
+    .video-container {
+      position: relative;
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px -15px rgba(0,0,0,0.06);
+      background: var(--gray-100);
+      cursor: pointer;
+    }
+
+    .video-container video {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 300px;
+    }
+
+    .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: rgba(0, 0, 0, 0.7);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+      z-index: 2;
+    }
+
+    .play-btn:hover {
+      background: rgba(0, 0, 0, 0.85);
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    .play-btn svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--white);
+      margin-left: 4px;
+    }
+
+    .play-btn.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px clamp(24px, 5vw, 80px);
+      background: var(--maroon);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-left {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--white); }
+
+    @media (max-width: 768px) {
+      .demo-header { justify-content: center; text-align: center; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="regace-logo.png" alt="Regace AI" />
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 1l-5 5 5 5"/></svg>
+      Back to home
+    </a>
+  </nav>
+
+  <main>
+    <div class="demo-header">
+      <h1 class="page-title">See Regace AI in <em>Action</em></h1>
+      <a href="schedule.html" class="schedule-btn">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="12" height="13" rx="2"/><path d="M3 8h12M7 2v4M11 2v4"/></svg>
+        Schedule a Demo
+      </a>
+    </div>
+
+    <div class="video-container" id="videoContainer">
+      <video playsinline preload="metadata" id="demoVideo">
+        <source src="demo.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <button class="play-btn" id="playBtn">
+        <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21" /></svg>
+      </button>
+    </div>
+
+    <script>
+      const video = document.getElementById('demoVideo');
+      const playBtn = document.getElementById('playBtn');
+      const container = document.getElementById('videoContainer');
+
+      function play() {
+        video.controls = true;
+        video.play();
+        playBtn.classList.add('hidden');
+      }
+
+      playBtn.addEventListener('click', play);
+
+      video.addEventListener('pause', () => {
+        if (!video.ended) playBtn.classList.remove('hidden');
+      });
+
+      video.addEventListener('play', () => {
+        playBtn.classList.add('hidden');
+      });
+
+      video.addEventListener('ended', () => {
+        playBtn.classList.remove('hidden');
+        video.controls = false;
+      });
+    </script>
+  </main>
+
+  <footer>
+    <div class="footer-left">&copy; 2026 Regace AI. All rights reserved.</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </footer>
+</body>
+</html>
